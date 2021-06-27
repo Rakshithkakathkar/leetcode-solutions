@@ -1,6 +1,9 @@
 /*
 Valid Anagram 
 Two string are anagrams if they have same chars, same number of times
+
+TimeComplexity: O(n)
+SpaceComplexity: O(1) Hash table will have 26 key-value pairs
 */
 
 function isAnagram(s,t){
