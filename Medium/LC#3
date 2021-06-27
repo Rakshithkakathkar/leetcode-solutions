@@ -1,0 +1,118 @@
+/*
+Longest Substring Without Repeating Characters
+Brute force O(n^3)
+
+Can be solved in O(n) using a sliding window.
+The sliding window will have the current substring of non repeating chars
+Window will grow and shrink
+
+Current index and value in for loop will always be the end, as end of window increases we conditionally increase the start of window
+
+PseudoCode
+Create an empty hashmap (key/val -> char/index)
+Create a start and maxVariable, set both with initial value of zero
+
+Loop through the string
+  If input char in hashmap and  has index >= start
+    Set start to index of char found in hashmap + 1
+  Set key/value pair on hashmap to be current character/currentIndex
+  If length of currentwindow is greater than max
+    set max to length of currentWindow
+    
+ Return max
+ 
+ 
+ TimeComplexity: O(n) Each char in input string is visited once
+ SpaceComplexity: O(min(m,n)) The number of keys in HashMap is bounded by size of the string n and the size of charset/alphabet m
+*/
+
+function lengthOfLongestSubstring(s){
+  let windowCharsMap = {};
+  let windowStart = 0;
+  let maxLength = 0;
+  
+  for(let i=0; i<s.length; i++){
+    const endChar = s[i];
+    
+    if(windowCharsMap[endChar] >= windowStart) //it is found in the current hashmap it'll have an index greater
+    {
+      windowStart = windowCharsMap[endChar] + 1;
+    }
+    
+    windowCharsMap[endChar] = i;
+    
+    maxLength = Math.max(maxLength, i-windowStart + 1);    
+  }
+  
+  return maxLength;
+}
+
+/* 
+Trace of algo for "abcabcbb"
+
+windowStart = 0
+maxLength = 0
+i=0
+endChar = a
+windowCharsMap["a"] = undefined
+windowCharsMap["a"] = 0
+windowCharsMap = {"a": 0}
+maxLength = 1 (0-0+1)
+
+i=1
+endChar = b
+windowCharsMap["b"] = undefined
+windowCharsMap["b"] = 1
+windowStart = 0
+windowCharsMap = {"a": 0, "b": 1}
+maxLength = 2
+
+i=2
+endChar = c
+windowCharsMap["c"] = undefined
+windowCharsMap["c"] = 2
+windowStart = 0
+windowCharsMap = {"a": 0, "b": 1, "c": 2}
+maxLength = 3
+
+i=3
+endChar = a
+windowCharsMap["a"] = 0 >= windowStart (0)
+windowCharsMap["a"] = 3
+windowStart = 1
+windowCharsMap = {"a": 3, "b": 1, "c": 2}
+maxLength = 3
+
+i=4
+endChar = b
+windowCharsMap["b"] = 1 >= windowStart (1)
+windowStart = 2
+windowCharsMap["b"] = 4
+windowCharsMap = {"a": 3, "b": 4, "c": 2}
+maxLength = 3
+
+
+i=5
+endChar = c
+windowCharsMap["c"] = 2 >= windowStart (2)
+windowStart = 3
+windowCharsMap["c"] = 5
+windowCharsMap = {"a": 3, "b": 4, "c": 5}
+maxLength = 3
+
+i=6
+endChar = b
+windowCharsMap["b"] = 4 >= windowStart (3)
+windowStart = 5
+windowCharsMap["b"] = 6
+windowCharsMap = {"a": 3, "b": 6, "c": 5}
+maxLength = 3
+
+i=7
+endChar = b
+windowCharsMap["b"] = 6 >= windowStart (5)
+windowStart = 7
+windowCharsMap["b"] = 7
+windowCharsMap = {"a": 3, "b": 7, "c": 5}
+maxLength = 3
+*/
