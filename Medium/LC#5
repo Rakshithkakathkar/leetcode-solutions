@@ -1,5 +1,8 @@
 /*
-Longest Palindromic Substring
+Longest Palindromic Substring.
+
+Time Complexity: O(n^2) Expanding around center is O(n) and we do this for all chars in the for loop O(n)
+Space Complexity O(1) 
 */
 
 function longestPalindrome(s){
